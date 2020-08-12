@@ -3,4 +3,6 @@ project(cgp)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_library(cgp library.h)
+add_library(cgp src/cgp.cpp)
+
+target_include_directories(cgp PUBLIC include)
