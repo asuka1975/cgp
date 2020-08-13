@@ -7,6 +7,6 @@ find_package(GTest REQUIRED)
 
 add_executable(CGP_test_run test.cpp)
 
-target_link_libraries(CGP_test_run cgp gtest gmock -pthread)
+target_link_libraries(CGP_test_run cgp gtest gmock -pthread genetic network)
 
-target_include_directories(CGP_test_run PUBLIC ${CGP_INCLUDE_DIR})
+target_include_directories(CGP_test_run PUBLIC ${CGP_INCLUDE_DIR} ${GA_INCLUDE_DIR} ${NETWORK_INCLUDE_DIR})
