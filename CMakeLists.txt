@@ -8,7 +8,7 @@ set(NETWORK_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/network/include)
 
 enable_testing()
 
-add_library(cgp src/cgp.cpp)
+add_library(cgp src/cgp.cpp src/cgp_genome.cpp)
 
 target_include_directories(cgp PUBLIC include ${GA_INCLUDE_DIR} ${NETWORK_INCLUDE_DIR})
 
