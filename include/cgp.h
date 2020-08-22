@@ -37,10 +37,10 @@ void configure_cgp(const cgp_config& config, genetic::ga_config<TArgs...>& gconf
         config.conn = g.conn;
         config.node = g.node;
         config.f = f;
-        return cgp_feedforward_config(config);
+        return cgp_feedforward(config);
     };
     gconfig.initializer = [init=gconfig.initializer, &config] () {
-        genetic::ga_config<TArgs...> d = init();
+        typename genetic::ga_config<TArgs...>::individual_t d = init();
         cgp_genome& g = std::get<I>(d);
         g.network_size = config.network_size;
         g.input = config.input_num;
@@ -54,6 +54,7 @@ void configure_cgp(const cgp_config& config, genetic::ga_config<TArgs...>& gconf
             }
         }
         for(auto& o : g.output) o = random_generator::random<std::uint32_t>() % (g.input + g.node.size());
+        return d;
     };
     gconfig.node_mutates.emplace_back(config.func_mutate_prob, [](float p, individual_t& d) {
         cgp_genome& g = std::get<I>(d);
