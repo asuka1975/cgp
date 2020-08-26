@@ -44,6 +44,9 @@ void configure_cgp(const cgp_config& config, genetic::ga_config<TArgs...>& gconf
         cgp_genome& g = std::get<I>(d);
         g.network_size = config.network_size;
         g.input = config.input_num;
+        g.conn.resize(g.network_size.first * g.network_size.second * config.node_input_num);
+        g.node.resize(g.network_size.first * g.network_size.second);
+        g.output.resize(config.output_num);
         for(auto& n : g.node) n = random_generator::random<std::uint32_t>() % config.f.size();
         for(auto i = 0; i < g.network_size.second; i++) {
             for(auto j = 0; j < g.network_size.first; j++) {
@@ -56,11 +59,11 @@ void configure_cgp(const cgp_config& config, genetic::ga_config<TArgs...>& gconf
         for(auto& o : g.output) o = random_generator::random<std::uint32_t>() % (g.input + g.node.size());
         return d;
     };
-    gconfig.node_mutates.emplace_back(config.func_mutate_prob, [](float p, individual_t& d) {
+    gconfig.node_mutates.emplace_back(config.func_mutate_prob, [&config](float p, individual_t& d) {
         cgp_genome& g = std::get<I>(d);
         for(auto& n : g.node) {
             if(p < random_generator::random<float>()) {
-                n = random_generator::random<std::uint32_t>() % g.node.size();
+                n = random_generator::random<std::uint32_t>() % config.f.size();
             }
         }
 
